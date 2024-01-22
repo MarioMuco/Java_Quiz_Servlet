@@ -48,13 +48,15 @@
         }
     </style>
 </head>
-<body>
-
     <h2>Rezultatet e Quiz-it</h2>
 
     <%
         // Retrieve the quiz list from the servlet context
         List<Quiz> quizList = (List<Quiz>) getServletContext().getAttribute("quizList");
+		//Retrieve the quiz list from the servlet context (using quizListFromDB)
+		List<Quiz> quizListFromDB = (List<Quiz>) getServletContext().getAttribute("quizListFromDB");
+		
+		quizList.addAll(quizListFromDB);
 
          // Get the selected quiz index from the parameter
             int quizIndex = 0; // Default value or any appropriate default

@@ -7,6 +7,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Take Quiz</title>
+    
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -64,23 +65,67 @@
 <body>
 
     <h2>Take Quiz</h2>
+<%
 
-    <%
-        // Record start time
-        long startTime = System.currentTimeMillis();
+	//Retrieve the quiz list from the servlet context (using quizListFromDB)
+	List<Quiz> quizListFromDB = (List<Quiz>) getServletContext().getAttribute("quizListFromDB");
 
-        // Retrieve the quiz list from the servlet context
-        List<Quiz> quizList = (List<Quiz>) getServletContext().getAttribute("quizList");
+List<Quiz> quizList = (List<Quiz>) getServletContext().getAttribute("quizList");
 
-        // Get the selected quiz index from the parameter
-        int quizIndex = Integer.parseInt(request.getParameter("quizIndex"));
+// Get the selected quiz title from the parameter
+String quizTitle = request.getParameter("quizTitle");
 
-        // Get the selected quiz based on the index
-        Quiz selectedQuiz = quizList.get(quizIndex);
-    %>
+// Find the selected quiz based on the title
+Quiz selectedQuiz = null;
+
+// Check if quizList is not null before iterating over it
+if (quizList != null) {
+    for (Quiz quiz : quizList) {
+        if (quiz.getQuizTitle().equals(quizTitle)) {
+            selectedQuiz = quiz;
+            break;
+        }
+    }
+}
+
+// Check if the selected quiz is found
+if (selectedQuiz == null) {
+    // Handle the case where the quiz with the given title is not found
+    // You might redirect to an error page or handle it as per your requirements
+    response.sendRedirect("ErrorPage.jsp");
+    return;
+}
+    
+    
+ // Find the selected quiz based on the title in quizListFromDB
+    Quiz selectedQuizFromDB = null;
+    for (Quiz quiz : quizListFromDB) {
+        if (quiz.getQuizTitle().equals(quizTitle)) {
+            selectedQuizFromDB = quiz;
+            break;
+        }
+    }
+
+
+
+    // Check if the selected quiz is found in quizListFromDB
+    if (selectedQuizFromDB == null) {
+        // Handle the case where the quiz with the given title is not found
+        // You might redirect to an error page or handle it as per your requirements
+        response.sendRedirect("ErrorPage.jsp");
+        return;
+    }
+    
+    
+    
+    
+    
+    
+    
+%>
 
     <div>
-        <p id="timer"></p> <!-- Display the timer -->
+       
 
         <p><strong>Titulli:</strong> <%= selectedQuiz.getQuizTitle() %></p>
 
@@ -112,9 +157,7 @@
         </form>
 
         <!-- Hidden form to submit time to the second page -->
-        <form id="timeForm" action="SubmitQuiz.jsp" method="post">
-            <input type="hidden" name="startTime" value="<%= startTime %>">
-        </form>
+       
     </div>
 
 </body>
