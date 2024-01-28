@@ -1,4 +1,3 @@
-<!-- SubmitQuiz.jsp -->
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="klasat.Quiz" %>
 <%@ page import="java.util.List" %>
@@ -51,37 +50,30 @@
     <h2>Rezultatet e Quiz-it</h2>
 
     <%
-        // Retrieve the quiz list from the servlet context
         List<Quiz> quizList = (List<Quiz>) getServletContext().getAttribute("quizList");
-		//Retrieve the quiz list from the servlet context (using quizListFromDB)
 		List<Quiz> quizListFromDB = (List<Quiz>) getServletContext().getAttribute("quizListFromDB");
-		
 		quizList.addAll(quizListFromDB);
 
-         // Get the selected quiz index from the parameter
-            int quizIndex = 0; // Default value or any appropriate default
-    
-           // Check if the parameter is not null before parsing
-            String quizIndexParam = request.getParameter("quizIndex");
-           if (quizIndexParam != null && !quizIndexParam.isEmpty()) {
-                quizIndex = Integer.parseInt(quizIndexParam);
-            }
-    
-           // Get the selected quiz based on the index
-            Quiz selectedQuiz = quizList.get(quizIndex);
+         		// indeksi i kuizit te zgjedhur
+        		 int quizIndex = 0; 
+            	String quizIndexParam = request.getParameter("quizIndex");
+          			 if (quizIndexParam != null && !quizIndexParam.isEmpty()) {
+               			 quizIndex = Integer.parseInt(quizIndexParam);
+            		}
+          		Quiz selectedQuiz = quizList.get(quizIndex);
 
 
-        // Initialize the score
+        // variabli ku mbahen piket
         int score = 0;
 
-        // Loop through questions
+        // Loop permes pyrtjeve
         for (int i = 0; i < selectedQuiz.getQuestionText().size(); i++) {
             String correctAnswer = selectedQuiz.getCorrectAnswer().get(i);
             String chosenAnswer = request.getParameter("answer" + i);
 
-            // Check if the chosen answer is correct
+            // kontrollo nese pergjigja e zgjedhur eshte e sakte 
             if (correctAnswer.equals(chosenAnswer)) {
-                score += 5; // Increment the score by 5 for each correct answer
+                score += 5; // cdo pyetje e sakte te jepe 5 pike 
             }
     %>
 
@@ -90,8 +82,6 @@
                 <p><strong>Pergjigjia e sakte:</strong> <%= correctAnswer %></p>
                 <p><strong>Pergjigjia juaj:</strong> <%= chosenAnswer %></p>
             </div>
-           
-
     <%
         }
     %>

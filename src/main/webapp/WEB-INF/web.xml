@@ -109,4 +109,34 @@
     <servlet-name>DeleteQuizServlet</servlet-name>
     <url-pattern>/DeleteQuizServlet</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>AjaxCreateQuizServlet</display-name>
+    <servlet-name>AjaxCreateQuizServlet</servlet-name>
+    <servlet-class>quizes.AjaxCreateQuizServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>AjaxCreateQuizServlet</servlet-name>
+    <url-pattern>/AjaxCreateQuizServlet</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>LoginServlet</display-name>
+    <servlet-name>LoginServlet</servlet-name>
+    <servlet-class>regjistrimi.LoginServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>LoginServlet</servlet-name>
+    <url-pattern>/LoginServlet</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>UpdateQuizetServlet</display-name>
+    <servlet-name>UpdateQuizetServlet</servlet-name>
+    <servlet-class>quizes.UpdateQuizetServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>UpdateQuizetServlet</servlet-name>
+    <url-pattern>/UpdateQuizetServlet</url-pattern>
+  </servlet-mapping>
 </web-app>

@@ -6,7 +6,6 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import klasat.Quiz;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,8 +14,6 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-
- 
 public class KrijoQuizServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
@@ -26,10 +23,10 @@ public class KrijoQuizServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-    	 // Retrieve quiz details from the form
+    	 // merr te dhenat e quizit nga forma
         String quizTitle = request.getParameter("quizTitle");
 
-        // Create a Quiz object
+        // krijone nje objekt quiz me te dhenat e formes 
         Quiz quiz = new Quiz();
         quiz.setQuizTitle(quizTitle);
 
@@ -55,21 +52,19 @@ public class KrijoQuizServlet extends HttpServlet {
         quiz.setAnswers(answersList);
         quiz.setCorrectAnswer(correctAnswerList);
 
-        // Add the quiz to a list or database
+        // shtohet quizi ne liste
         List<Quiz> quizList = (List<Quiz>) getServletContext().getAttribute("quizList");
-
         if (quizList == null) {
             quizList = new ArrayList<>();
         }
-
         quizList.add(quiz);
 
-        // Store data in the database
+        // shtohet quizi ne database 
         saveQuizToDatabase(quiz);
 
         getServletContext().setAttribute("quizList", quizList);
 
-        // Redirect to a success page or handle as needed
+        // Redirect te faqja e quizeve
         response.sendRedirect("QuizList.jsp");
     }
 
@@ -80,7 +75,7 @@ public class KrijoQuizServlet extends HttpServlet {
     
     
     private void saveQuizToDatabase(Quiz quiz) {
-        // Your database connection details
+        // lidhja me databasen 
         String url = "jdbc:mysql://localhost:3306/sys";
         String user = "root";
         String password = "root";
@@ -91,13 +86,14 @@ public class KrijoQuizServlet extends HttpServlet {
             e.printStackTrace();
         }
 
+        //query insert ne database 
         try (Connection con = DriverManager.getConnection(url, user, password)) {
             String insertQuery = "INSERT INTO questions (quiz_title, question_1, answer_1_1, answer_1_2, answer_1_3, answer_1_4, " +
                     "correct_answer_1, question_2, answer_2_1, answer_2_2, answer_2_3, answer_2_4, correct_answer_2) " +
                     "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
             try (PreparedStatement preparedStatement = con.prepareStatement(insertQuery)) {
-                // Set parameters for the prepared statement
+                // parametrat e prepared statement 
                 preparedStatement.setString(1, quiz.getQuizTitle());
                 preparedStatement.setString(2, quiz.getQuestionText().get(0));
                 preparedStatement.setString(3, quiz.getAnswers().get(0));
@@ -112,14 +108,11 @@ public class KrijoQuizServlet extends HttpServlet {
                 preparedStatement.setString(12, quiz.getAnswers().get(7));
                 preparedStatement.setString(13, quiz.getCorrectAnswer().get(1));
 
-                // Execute the prepared statement
+                // ekzekuto prepared statement 
                 preparedStatement.executeUpdate();
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            // Handle database errors as needed
         }
     }
-    
-    
 }

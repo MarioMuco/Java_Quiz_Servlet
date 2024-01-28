@@ -12,22 +12,20 @@
 <%@ page language="java" %>
 
 <%
-    // Retrieve the quiz list from the servlet context
+    // Quizet e krijuara
     List<Quiz> quizList = (List<Quiz>) getServletContext().getAttribute("quizList");
     if (quizList == null) {
-        quizList = new ArrayList<>(); // Initialize the quizList if it's null
+        quizList = new ArrayList<>(); 
     }
 
-    // Retrieve the quiz list from the servlet context (using quizListFromDB)
+    // Quizet ne database
     List<Quiz> quizListFromDB = (List<Quiz>) getServletContext().getAttribute("quizListFromDB");
     if (quizListFromDB == null) {
-    	quizListFromDB = new ArrayList<>(); // Initialize the quizList if it's null
+    	quizListFromDB = new ArrayList<>(); 
     }
 %>
 <%
-    // Create a list to hold Quiz objects retrieved from the database
-
-    // Your database connection details
+    // Lidhja me databasen 
     String url = "jdbc:mysql://localhost:3306/sys";
     String user = "root";
     String password = "root";
@@ -42,10 +40,10 @@
         String selectQuery = "SELECT * FROM questions";
 
         try (PreparedStatement preparedStatement = con.prepareStatement(selectQuery)) {
-            ResultSet resultSet = preparedStatement.executeQuery();
+            ResultSet resultSet = preparedStatement.executeQuery(); //ne resultset ruhen te gjithe quizet
 
             while (resultSet.next()) {
-                // Create a Quiz object for each record in the result set
+                // krijohen quiz object per cdo resultset 
                 Quiz quiz = new Quiz();
                 quiz.setQuizTitle(resultSet.getString("quiz_title"));
 
@@ -71,24 +69,18 @@
                 quiz.setAnswers(answersList);
                 quiz.setCorrectAnswer(correctAnswerList);
 
-                // Add the Quiz object to the list
+                // shton quiz object ne list
                 quizListFromDB.add(quiz);
                 quizList.add(quiz);
             }
         }
     } catch (SQLException e) {
         e.printStackTrace();
-        // Handle database errors as needed
     }
 
-    // Set the retrieved quiz list in the servlet context for later use
     getServletContext().setAttribute("quizListFromDB", quizListFromDB);
     getServletContext().setAttribute("quizList", quizList);
 %>
-
-
-
-
 
 
 <!DOCTYPE html>
@@ -99,18 +91,13 @@
     <title>Quiz List</title>
     <script>
     function takeQuiz(quizTitle) {
-        // Redirect to TakeQuiz.jsp with the selected quiz title
         window.location.href = "TakeQuiz.jsp?quizTitle=" + encodeURIComponent(quizTitle);
     }
-
-    // You can define similar functions for editQuiz and deleteQuiz if needed
     function editQuiz(quizTitle) {
-        // Redirect to EditQuiz.jsp with the selected quiz title
-        window.location.href = "EditQuiz.jsp?quizTitle=" + encodeURIComponent(quizTitle);
+        window.location.href = "UpdateQuiz.jsp?quizTitle=" + encodeURIComponent(quizTitle);
     }
 
     function deleteQuiz(quizTitle) {
-        // Redirect to DeleteQuiz.jsp with the selected quiz title
         window.location.href = "DeleteQuizServlet?quizTitle=" + encodeURIComponent(quizTitle);
     }
 </script>
@@ -198,7 +185,8 @@
  <h2>Lista e Quiz-eve</h2>
    <div class="quiz-container">
 <%
-Class.forName("com.mysql.cj.jdbc.Driver");
+	//lidhja me databasen 
+	Class.forName("com.mysql.cj.jdbc.Driver");
 
 try (Connection con = DriverManager.getConnection(url, user, password)) {
     System.out.println("Connected to the database!");
@@ -208,45 +196,34 @@ try (Connection con = DriverManager.getConnection(url, user, password)) {
     String selectQuery = "SELECT * FROM questions";
     ResultSet resultSet = statement.executeQuery(selectQuery);
     
-    
-    // Process the select results
     while (resultSet.next()) {
 %>
-
-
 
  <div class="quiz-box">
                     <p><strong>Titulli:</strong> <%= resultSet.getString("quiz_title") %></p>
                     <p><strong>Pyetjet:</strong></p>
                     <ul>
                        <%= resultSet.getString("question_1") %>
-   
                     </ul>
-                                       <ul>
+                    <ul>
                        <%= resultSet.getString("question_2") %>
-
                     </ul>
 					<button class="quiz-button" onclick="takeQuiz('<%= resultSet.getString("quiz_title") %>')">Take</button>
 					<button class="quiz-button" onclick="editQuiz('<%= resultSet.getString("quiz_title") %>')">Edit</button>
 					<button class="quiz-button" onclick="deleteQuiz('<%= resultSet.getString("quiz_title") %>')">Delete</button>
-                    <!--  <a href="TakeQuiz.jsp?quizIndex=">Take Quiz</a> -->
-               
                 </div>
 <%
     }
 %>
 
-
-
 <%
-    // Disconnect from the database
-} catch (SQLException e) {
-    System.err.println("Failure");
-    e.printStackTrace();
-}
+	} catch (SQLException e) {
+	    System.err.println("Failure");
+	    e.printStackTrace();
+	}
 %>
 </div>
   <a href="Profili.jsp">Profili</a>
-
+  
 </body>
 </html>

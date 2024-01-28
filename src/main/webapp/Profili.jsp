@@ -53,15 +53,14 @@
     </style>
 </head>
 <body>
+
     <h2>Faqja e Profilit</h2>
     <div>
-    <p>Username: <%= session.getAttribute("username") %></p>
     <p>Email: <%= session.getAttribute("email") %></p>
     <a href="UpdateProfili.jsp">Perditeso Profilin</a>
-    <!-- Shtoni një buton për të krijuar një quiz -->
     <a href="KrijoQuiz.jsp">Krijo Quiz </a>
     <a href="QuizList.jsp">Lista e Quiz-eve</a> 
     </div>
-    <!-- lista e gjith quizeve qe ka ky profil-->
+    
 </body>
 </html>

@@ -93,7 +93,6 @@
     <h2>Krijo Quiz</h2>
 
     <form action="KrijoQuizServlet" method="post">
-        <!-- Quiz details -->
         <label  for="quizTitle">Titulli:</label>
         <input class="title-container" type="text" name="quizTitle" required>
 
@@ -101,8 +100,6 @@
         <div class="question-container">
             <label for="question1">Pyetja 1:</label>
             <input type="text" name="question1" required>
-
-            <!-- Answers for Question 1 -->
             <label>Pergjigjet:</label>
             <div class="answer-container">
                 <input type="text" name="answer11" required>
@@ -120,8 +117,6 @@
         <div class="question-container">
             <label for="question2">Pyetja 2:</label>
             <input type="text" name="question2" required>
-
-            <!-- Answers for Question 2 -->
             <label>Pergjigjet:</label>
             <div class="answer-container">
                 <input type="text" name="answer21" required>
@@ -134,7 +129,6 @@
                 <input type="radio" name="correctAnswer24"> Correct
             </div>
         </div>
-
         <input type="submit" value="Create Quiz">
     </form>
 

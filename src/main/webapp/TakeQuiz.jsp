@@ -7,8 +7,36 @@
 <head>
     <meta charset="UTF-8">
     <title>Take Quiz</title>
-    
+     <script>
+        // Countdown timer
+        var secondsLeft = 59;
+
+        function countdown() {
+            var timerElement = document.getElementById("timer");
+            timerElement.innerHTML = "Koha e mbetur: " + secondsLeft + " sekonda";
+
+            if (secondsLeft <= 0) {
+                // submit automatikisht kur timeri shkon ne 0
+                document.getElementById("quizForm").submit();
+            } else {
+                secondsLeft--;
+                setTimeout(countdown, 1000);
+            }
+        }
+
+        // fillo timerin kur faqja behet load 
+        window.onload = function() {
+            countdown();
+        };
+    </script>
     <style>
+     #timer {
+            font-size: 18px;
+            color: #e74c3c;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+    
         body {
             font-family: Arial, sans-serif;
             background-color: #f4f4f4;
@@ -29,6 +57,7 @@
         p {
             font-size: 16px;
             color: #333;
+            text-align: center;
         }
 
         #quizForm {
@@ -66,80 +95,53 @@
 
     <h2>Take Quiz</h2>
 <%
-
-	//Retrieve the quiz list from the servlet context (using quizListFromDB)
+	//merren listat e kuizeve
 	List<Quiz> quizListFromDB = (List<Quiz>) getServletContext().getAttribute("quizListFromDB");
+	List<Quiz> quizList = (List<Quiz>) getServletContext().getAttribute("quizList");
 
-List<Quiz> quizList = (List<Quiz>) getServletContext().getAttribute("quizList");
-
-// Get the selected quiz title from the parameter
-String quizTitle = request.getParameter("quizTitle");
-
-// Find the selected quiz based on the title
-Quiz selectedQuiz = null;
-
-// Check if quizList is not null before iterating over it
-if (quizList != null) {
-    for (Quiz quiz : quizList) {
-        if (quiz.getQuizTitle().equals(quizTitle)) {
-            selectedQuiz = quiz;
-            break;
-        }
-    }
-}
-
-// Check if the selected quiz is found
-if (selectedQuiz == null) {
-    // Handle the case where the quiz with the given title is not found
-    // You might redirect to an error page or handle it as per your requirements
-    response.sendRedirect("ErrorPage.jsp");
-    return;
-}
-    
-    
- // Find the selected quiz based on the title in quizListFromDB
-    Quiz selectedQuizFromDB = null;
-    for (Quiz quiz : quizListFromDB) {
-        if (quiz.getQuizTitle().equals(quizTitle)) {
-            selectedQuizFromDB = quiz;
-            break;
-        }
-    }
-
-
-
-    // Check if the selected quiz is found in quizListFromDB
-    if (selectedQuizFromDB == null) {
-        // Handle the case where the quiz with the given title is not found
-        // You might redirect to an error page or handle it as per your requirements
-        response.sendRedirect("ErrorPage.jsp");
-        return;
-    }
-    
-    
-    
-    
-    
-    
-    
+	// merrrt titulli i kuizit te zgjedhur
+	String quizTitle = request.getParameter("quizTitle");
+	
+	// gjendet kuizi i zgjedhur bazuar te titulli 
+	Quiz selectedQuiz = null;
+	if (quizList != null) {
+	    for (Quiz quiz : quizList) {
+	        if (quiz.getQuizTitle().equals(quizTitle)) {
+	            selectedQuiz = quiz;
+	            break;
+	        }
+	    }
+	}
+	if (selectedQuiz == null) {
+	    response.sendRedirect("ErrorPage.jsp");
+	    return;
+	}
+	    
+	 // quizi i zgjedhur qe ndoshet ne database
+	    Quiz selectedQuizFromDB = null;
+	    for (Quiz quiz : quizListFromDB) {
+	        if (quiz.getQuizTitle().equals(quizTitle)) {
+	            selectedQuizFromDB = quiz;
+	            break;
+	        }
+	    }
+	    if (selectedQuizFromDB == null) {
+	        response.sendRedirect("ErrorPage.jsp");
+	        return;
+	    }   
 %>
-
     <div>
-       
-
+ 		<!-- Timer 1 minuta -->
+        <div id="timer"></div>
+        
         <p><strong>Titulli:</strong> <%= selectedQuiz.getQuizTitle() %></p>
-
-        <!-- Display questions with radio buttons for options -->
         <form id="quizForm" action="SubmitQuiz.jsp" method="post">
             <%
-                // Loop through questions
                 for (int i = 0; i < selectedQuiz.getQuestionText().size(); i++) {
                     String questionText = selectedQuiz.getQuestionText().get(i);
             %>
                     <p><strong>Pyetja <%= i + 1 %> (5 pike) :</strong> <%= questionText %></p>
-
                     <%
-                        // Loop through options
                         for (int j = 0; j < 4; j++) {
                             String option = selectedQuiz.getAnswers().get(i * 4 + j);
                     %>
@@ -152,12 +154,8 @@ if (selectedQuiz == null) {
             <%
                 }
             %>
-
             <input type="submit" value="Submit Quiz">
-        </form>
-
-        <!-- Hidden form to submit time to the second page -->
-       
+        </form>       
     </div>
 
 </body>

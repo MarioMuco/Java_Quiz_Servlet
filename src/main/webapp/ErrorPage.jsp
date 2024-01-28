@@ -8,8 +8,6 @@
 <body>
 
     <h2>Error</h2>
-    <p>The selected quiz was not found.</p>
-    <!-- Add any additional information or links as needed -->
 
 </body>
 </html>
