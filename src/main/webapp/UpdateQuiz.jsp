@@ -168,10 +168,14 @@
             <input type="text" name="question1" required >
             <label>Pergjigjet:</label>
             <div class="answer-container">
-                <input type="text" name="answer11" required><br/>
-                <input type="text" name="answer12" required><br/>
-                <input type="text" name="answer13" required><br/>
-                <input type="text" name="answer14" required><br/>
+                <input type="text" name="answer11" required>
+                <input type="radio" name="correctAnswer11"> Correct
+                <input type="text" name="answer12" required>
+                <input type="radio" name="correctAnswer12"> Correct
+                <input type="text" name="answer13" required>
+                <input type="radio" name="correctAnswer13"> Correct
+                <input type="text" name="answer14" required>
+                <input type="radio" name="correctAnswer14"> Correct
             </div>
         </div>
 
@@ -181,10 +185,14 @@
             <input type="text" name="question2" required>
             <label>Pergjigjet:</label>
             <div class="answer-container">
-                <input type="text" name="answer21" required><br/>
-                <input type="text" name="answer22" required><br/>
-                <input type="text" name="answer23" required><br/>
-                <input type="text" name="answer24" required><br/>
+                <input type="text" name="answer21" required>
+                <input type="radio" name="correctAnswer21"> Correct
+                <input type="text" name="answer22" required>
+                <input type="radio" name="correctAnswer22"> Correct
+                <input type="text" name="answer23" required>
+                <input type="radio" name="correctAnswer23"> Correct
+                <input type="text" name="answer24" required>
+                <input type="radio" name="correctAnswer24"> Correct
             </div>
         </div>
         <input type="submit" value="Edit Quiz">

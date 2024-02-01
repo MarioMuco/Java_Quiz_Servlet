@@ -223,7 +223,6 @@ try (Connection con = DriverManager.getConnection(url, user, password)) {
 	}
 %>
 </div>
-  <a href="Profili.jsp">Profili</a>
   
 </body>
 </html>

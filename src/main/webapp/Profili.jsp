@@ -56,7 +56,7 @@
 
     <h2>Faqja e Profilit</h2>
     <div>
-    <p>Email: <%= session.getAttribute("email") %></p>
+    <p>User: <%= session.getAttribute("username") %></p>
     <a href="UpdateProfili.jsp">Perditeso Profilin</a>
     <a href="KrijoQuiz.jsp">Krijo Quiz </a>
     <a href="QuizList.jsp">Lista e Quiz-eve</a> 
